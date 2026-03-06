@@ -1,0 +1,1277 @@
+/* ════════════════════════════════════════════════════════════════
+   LAYOUTS.CSS — Grid templates and visual theming for each layout
+   ════════════════════════════════════════════════════════════════
+
+   Grid areas used across all layouts:
+     topbar · sidebar · msgheader · termprompt · maincontent · footer
+   ════════════════════════════════════════════════════════════════ */
+
+/* Assign grid area names to elements */
+.el-top-bar     { grid-area: topbar; }
+.el-sidebar     { grid-area: sidebar; }
+.el-msg-header  { grid-area: msgheader; }
+.el-term-prompt { grid-area: termprompt; }
+.el-main-content{ grid-area: maincontent; }
+.el-footer      { grid-area: footer; }
+.el-excel-ribbon{ grid-area: excelribbon; }
+.el-fe-toolbar  { grid-area: fetoolbar; }
+
+/* Layout-specific elements hidden by default; shown only in their layout */
+.el-email-list,
+.el-excel-ribbon,
+.el-fe-toolbar,
+.el-msg-header { display: none !important; }
+
+/* fe-nav-items and fe-nav-btn hidden by default */
+.fe-nav-items { display: none; }
+.fe-nav-btn   { display: none; }
+
+.layout-email .el-email-list        { display: flex !important; flex-direction: column; }
+.layout-email .el-msg-header        { display: flex !important; flex-direction: column; }
+.layout-excel .el-excel-ribbon      { display: flex !important; flex-direction: column; }
+.layout-file-explorer .el-fe-toolbar{ display: flex !important; flex-direction: column; }
+.layout-file-explorer .fe-nav-items { display: block !important; }
+.layout-file-explorer .fe-nav-btn   { display: inline-flex !important; }
+
+
+/* ════════════════════════════════════════════════════════════════
+   LAYOUT 1: STANDARD READER
+   ════════════════════════════════════════════════════════════════ */
+.layout-standard {
+  grid-template-areas:
+    "topbar"
+    "maincontent"
+    "footer";
+  grid-template-rows: auto 1fr 44px;
+  grid-template-columns: 1fr;
+  background: var(--bg-page);
+}
+
+/* Hide unused elements */
+.layout-standard .el-sidebar,
+.layout-standard .el-msg-header,
+.layout-standard .el-term-prompt { display: none !important; }
+
+/* Visual styling */
+.layout-standard .el-top-bar .real-top-bar {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+.layout-standard .el-main-content {
+  background: var(--bg-card);
+}
+.layout-standard .el-footer {
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.layout-standard #reader-wrapper {
+  padding: 0;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   LAYOUT 2: EMAIL CLIENT  (Outlook 3-column)
+   ════════════════════════════════════════════════════════════════ */
+
+/* New grid area for the email list middle column */
+.el-email-list { grid-area: emaillist; }
+
+.layout-email {
+  grid-template-areas:
+    "topbar    topbar     topbar"
+    "sidebar   emaillist  msgheader"
+    "sidebar   emaillist  maincontent"
+    "sidebar   emaillist  footer";
+  grid-template-rows: auto auto 1fr 44px;
+  grid-template-columns: 240px 340px 1fr;
+  background: #f3f3f3;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.layout-email .el-term-prompt { display: none !important; }
+
+/* ── Top bar — Outlook white header ─────────────── */
+.layout-email .el-top-bar .real-top-bar {
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  color: #242424;
+  gap: 10px;
+}
+/* "Outlook" brand mark left of controls */
+.layout-email .el-top-bar .real-top-bar .tb-left::before {
+  content: 'Outlook';
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #0072c6;  /* keep brand colour only here */
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+/* Fake search bar */
+.layout-email .el-top-bar .real-top-bar .tb-center::before {
+  content: 'Search';
+  display: flex;
+  align-items: center;
+  padding: 5px 14px;
+  background: #f3f3f3;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  color: #888;
+  min-width: 260px;
+}
+.layout-email .el-top-bar .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#f5f5f5,#f5f5f5 5px,#eeeeee 5px,#eeeeee 10px);
+  color: #bbb;
+  border-color: #e0e0e0;
+}
+.layout-email .book-title { display: none; }
+
+/* ── Left nav rail ───────────────────────────────── */
+.layout-email .el-sidebar {
+  background: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+}
+.layout-email .el-sidebar .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#f5f5f5,#f5f5f5 5px,#eeeeee 5px,#eeeeee 10px);
+  color: #ccc;
+  border-color: #e0e0e0;
+}
+/* Compose button */
+.outlook-nav-compose {
+  margin: 12px 10px 8px;
+  padding: 8px 16px;
+  background: #f3f3f3;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #242424;
+  cursor: default;
+  text-align: center;
+}
+/* Nav items */
+.outlook-nav-items { padding: 0 0 8px; }
+.outlook-nav-section {
+  padding: 10px 14px 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+}
+.outlook-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  font-size: 0.82rem;
+  color: #242424;
+  cursor: default;
+  border-radius: 4px;
+  margin: 1px 6px;
+  position: relative;
+}
+.outlook-nav-item:hover { background: #f3f3f3; }
+.outlook-nav-active { font-weight: 600; background: #ebebeb; }
+.outlook-nav-badge {
+  margin-left: auto;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #242424;
+  background: #f3f3f3;
+  padding: 1px 5px;
+  border-radius: 8px;
+}
+.outlook-nav-icon { font-size: 0.82rem; width: 16px; text-align: center; }
+
+/* ── Email list panel ────────────────────────────── */
+.layout-email .el-email-list {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+.layout-email .el-email-list .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#f5f5f5,#f5f5f5 5px,#eeeeee 5px,#eeeeee 10px);
+  color: #ccc;
+  border-color: #e0e0e0;
+  flex-shrink: 0;
+}
+.real-email-list { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+.email-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+.email-list-title { font-size: 1rem; font-weight: 700; color: #242424; }
+.email-filter-btn {
+  font-size: 0.75rem;
+  color: #616161;
+  background: none;
+  border: none;
+  cursor: default;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.email-filter-btn:hover { background: #f3f3f3; }
+.email-list-items { flex: 1; overflow-y: auto; }
+.email-list-items::-webkit-scrollbar { width: 4px; }
+.email-list-items::-webkit-scrollbar-thumb { background: #d1d1d1; border-radius: 2px; }
+
+/* Individual email row */
+.email-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: default;
+  transition: background 0.12s;
+}
+.email-item:hover { background: #f3f3f3; }
+.email-item.active { background: #ebebeb; }
+.email-item.unread .ei-sender,
+.email-item.unread .ei-subject { font-weight: 700; }
+.email-avatar-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+}
+.ei-body { flex: 1; min-width: 0; }
+.ei-top { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; margin-bottom: 1px; }
+.ei-sender { font-size: 0.82rem; color: #242424; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ei-time { font-size: 0.72rem; color: #616161; flex-shrink: 0; }
+.ei-subject { font-size: 0.8rem; color: #242424; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.ei-preview { font-size: 0.75rem; color: #616161; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── Reading pane ────────────────────────────────── */
+.layout-email .el-msg-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  flex-direction: column;
+  overflow: visible;
+}
+.layout-email .el-msg-header .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#f5f5f5,#f5f5f5 5px,#eeeeee 5px,#eeeeee 10px);
+  color: #ccc;
+  border-color: #e0e0e0;
+}
+.layout-email .real-msg-header {
+  padding: 14px 24px 0;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.outlook-msg-subject {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #242424;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.outlook-msg-sender-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.outlook-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #b85c28;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+.outlook-sender-meta { display: flex; flex-direction: column; flex: 1; }
+.outlook-sender-name { font-size: 0.85rem; font-weight: 600; color: #242424; }
+.outlook-sender-to { font-size: 0.75rem; color: #616161; }
+.outlook-msg-time { font-size: 0.75rem; color: #616161; }
+/* Toolbar: Reply, Forward, etc. */
+.outlook-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 0 8px;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 4px;
+}
+.outlook-tb-btn {
+  padding: 4px 10px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  color: #242424;
+  cursor: default;
+}
+.outlook-tb-btn:hover { background: #f3f3f3; border-color: #e0e0e0; }
+.outlook-tb-sep { flex: 1; }
+
+.layout-email .el-main-content { background: #ffffff; }
+.layout-email .el-main-content .ph-ribbon { display: none !important; }
+.layout-email #reader-wrapper { padding: 16px 32px; }
+.layout-email .el-footer { background: #ffffff; border-top: 1px solid #e0e0e0; color: #555; }
+
+
+/* ════════════════════════════════════════════════════════════════
+   LAYOUT 3: TERMINAL
+   ════════════════════════════════════════════════════════════════ */
+.layout-terminal {
+  grid-template-areas:
+    "topbar"
+    "termprompt"
+    "maincontent"
+    "footer";
+  grid-template-rows: auto auto 1fr 44px;
+  grid-template-columns: 1fr;
+  background: #0d1117;
+  color: #39ff14;
+  font-family: 'Fira Code', 'Courier New', Consolas, monospace;
+}
+
+.layout-terminal .el-sidebar,
+.layout-terminal .el-msg-header { display: none !important; }
+
+/* Window chrome bar */
+.layout-terminal .el-top-bar .real-top-bar {
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  color: #39ff14;
+  font-family: 'Fira Code', monospace;
+  gap: 10px;
+}
+.layout-terminal .el-top-bar .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#0d1117,#0d1117 5px,#111720 5px,#111720 10px);
+  color: #1a3a1a;
+  border-color: #1a3a1a;
+}
+
+/* Window control dots */
+.layout-terminal .el-top-bar .real-top-bar::before {
+  content: '● ● ●';
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  color: #444;
+  flex-shrink: 0;
+}
+
+.layout-terminal .btn-icon {
+  background: #0d1117;
+  color: #39ff14;
+  border-color: #30363d;
+  font-family: monospace;
+}
+.layout-terminal .btn-icon:hover { background: #161b22; }
+.layout-terminal .layout-select-control {
+  background: #0d1117;
+  color: #39ff14;
+  border-color: #30363d;
+  font-family: monospace;
+}
+.layout-terminal #chapter-select {
+  background: #0d1117;
+  color: #39ff14;
+  border-color: #30363d;
+  font-family: monospace;
+}
+.layout-terminal .book-title { color: #39ff14; }
+
+/* Terminal prompt line */
+.layout-terminal .el-term-prompt {
+  background: #0d1117;
+  color: #39ff14;
+  border-bottom: 1px solid #1a2a1a;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.82rem;
+}
+.layout-terminal .term-user { color: #58a6ff; }
+.layout-terminal .term-sep { color: #555; }
+.layout-terminal .term-path { color: #79c0ff; }
+.layout-terminal .term-dollar { color: #f0f0f0; }
+.layout-terminal .term-cursor { color: #39ff14; }
+
+/* Content area — scanline effect */
+.layout-terminal .el-main-content {
+  background: #0d1117;
+  color: #39ff14;
+  position: relative;
+}
+.layout-terminal .el-main-content::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.08) 3px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+.layout-terminal .el-main-content .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#0d1117,#0d1117 5px,#111720 5px,#111720 10px);
+  color: #1a3a1a;
+  border-color: #1a3a1a;
+}
+.layout-terminal #reader-wrapper { padding: 8px 16px; }
+
+/* Footer */
+.layout-terminal .el-footer {
+  background: #161b22;
+  border-top: 1px solid #30363d;
+  color: #39ff14;
+}
+.layout-terminal .btn-nav {
+  background: #0d1117;
+  color: #39ff14;
+  border-color: #30363d;
+  font-family: monospace;
+}
+.layout-terminal .btn-nav:hover { background: #161b22; }
+.layout-terminal .progress-track { background: #1a2a1a; }
+.layout-terminal .progress-fill { background: #39ff14; }
+.layout-terminal .page-info { color: #39ff14; font-family: monospace; }
+
+
+/* ════════════════════════════════════════════════════════════════
+   LAYOUT 4: NOTES APP (Obsidian / Notion style)
+   ════════════════════════════════════════════════════════════════ */
+.layout-notes {
+  grid-template-areas:
+    "topbar     topbar"
+    "sidebar    maincontent"
+    "sidebar    footer";
+  grid-template-rows: auto 1fr 44px;
+  grid-template-columns: 260px 1fr;
+  background: #1e1e2e;
+}
+
+.layout-notes .el-msg-header,
+.layout-notes .el-term-prompt { display: none !important; }
+
+/* Top bar — Obsidian dark header */
+.layout-notes .el-top-bar .real-top-bar {
+  background: #181825;
+  border-bottom: 1px solid #313244;
+  color: #cdd6f4;
+}
+.layout-notes .el-top-bar .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#181825,#181825 5px,#1e1e2e 5px,#1e1e2e 10px);
+  color: #313244;
+  border-color: #313244;
+}
+.layout-notes .btn-icon {
+  background: #313244;
+  color: #cdd6f4;
+  border-color: #45475a;
+}
+.layout-notes .btn-icon:hover { background: #45475a; }
+.layout-notes .layout-select-control {
+  background: #313244;
+  color: #cdd6f4;
+  border-color: #45475a;
+}
+.layout-notes #chapter-select {
+  background: #313244;
+  color: #cdd6f4;
+  border-color: #45475a;
+}
+.layout-notes .book-title { color: #cdd6f4; }
+
+/* Sidebar — note tree */
+.layout-notes .el-sidebar {
+  background: #181825;
+  border-right: 1px solid #313244;
+}
+.layout-notes .el-sidebar .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#181825,#181825 5px,#1e1e2e 5px,#1e1e2e 10px);
+  color: #313244;
+  border-color: #313244;
+}
+.layout-notes .sidebar-header {
+  background: #181825;
+  color: #6c7086;
+  border-bottom: 1px solid #313244;
+}
+.layout-notes .sidebar-item { color: #bac2de; font-size: 0.8rem; }
+.layout-notes .sidebar-item:hover { background: #313244; }
+.layout-notes .sidebar-item.active { background: #45475a; color: #cba6f7; border-left-color: #cba6f7; }
+
+/* Content */
+.layout-notes .el-main-content { background: #1e1e2e; }
+.layout-notes .el-main-content .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#1e1e2e,#1e1e2e 5px,#252537 5px,#252537 10px);
+  color: #313244;
+  border-color: #313244;
+}
+.layout-notes #reader-wrapper { padding: 24px 40px; }
+
+/* Footer */
+.layout-notes .el-footer { background: #181825; border-top: 1px solid #313244; color: #6c7086; }
+.layout-notes .btn-nav {
+  background: #313244;
+  color: #cdd6f4;
+  border-color: #45475a;
+}
+.layout-notes .btn-nav:hover { background: #45475a; }
+.layout-notes .progress-track { background: #313244; }
+.layout-notes .progress-fill { background: #cba6f7; }
+.layout-notes .page-info { color: #6c7086; }
+
+
+/* ════════════════════════════════════════════════════════════════
+   LAYOUT 5: DOCUMENT EDITOR (Google Docs style)
+   ════════════════════════════════════════════════════════════════ */
+.layout-document-editor {
+  grid-template-areas:
+    "topbar"
+    "maincontent"
+    "footer";
+  grid-template-rows: auto 1fr 44px;
+  grid-template-columns: 1fr;
+  background: #f1f3f4;
+}
+
+.layout-document-editor .el-sidebar,
+.layout-document-editor .el-msg-header,
+.layout-document-editor .el-term-prompt { display: none !important; }
+
+/* Toolbar */
+.layout-document-editor .el-top-bar .real-top-bar {
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
+}
+.layout-document-editor .el-top-bar .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#f5f5f5,#f5f5f5 5px,#eeeeee 5px,#eeeeee 10px);
+  color: #bbb;
+  border-color: #e0e0e0;
+}
+
+/* Content — grey canvas with centered white "page" */
+.layout-document-editor .el-main-content {
+  background: #e8eaed;
+  overflow: hidden;
+}
+.layout-document-editor .el-main-content .ph-ribbon { margin: 0; border-radius: 0; }
+.layout-document-editor #reader-wrapper {
+  overflow-y: auto;
+  height: 100%;
+  padding: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.layout-document-editor #reader-wrapper::-webkit-scrollbar { width: 8px; }
+.layout-document-editor #reader-wrapper::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 4px;
+}
+
+/* The epub/pdf container gets "page" styling */
+.layout-document-editor #epub-container,
+.layout-document-editor #pdf-container {
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  min-height: 1056px;
+  padding: 0;
+  border-radius: 2px;
+  width: 816px; /* 8.5in at 96dpi */
+  max-width: 100%;
+  flex-shrink: 0;
+}
+.layout-document-editor #pdf-container {
+  padding: 24px;
+  min-height: unset;
+  overflow-y: unset;
+}
+
+/* Footer */
+.layout-document-editor .el-footer {
+  background: #ffffff;
+  border-top: 1px solid #e0e0e0;
+  color: #555;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   LAYOUT 6: FILE EXPLORER (Windows 11 File Explorer style)
+   ════════════════════════════════════════════════════════════════ */
+.layout-file-explorer {
+  grid-template-areas:
+    "topbar     topbar"
+    "fetoolbar  fetoolbar"
+    "sidebar    maincontent"
+    "sidebar    footer";
+  grid-template-rows: auto auto 1fr 22px;
+  grid-template-columns: 220px 1fr;
+  background: #ffffff;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  color: #1a1a1a;
+}
+
+.layout-file-explorer .el-msg-header,
+.layout-file-explorer .el-term-prompt,
+.layout-file-explorer .el-email-list { display: none !important; }
+
+/* ── Address bar row ── */
+.layout-file-explorer .el-top-bar .real-top-bar {
+  background: #f3f3f3;
+  border-bottom: 1px solid #e0e0e0;
+  color: #1a1a1a;
+  font-size: 13px;
+  min-height: 42px;
+  padding: 4px 6px;
+  gap: 3px;
+}
+.layout-file-explorer .el-top-bar .ph-ribbon { display: none; }
+
+/* Navigation buttons: back arrow stays, extra arrows shown */
+.layout-file-explorer #btn-back {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #1a1a1a;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 3px 6px;
+}
+.layout-file-explorer #btn-back:hover { background: #e5e5e5; border-color: #d0d0d0; }
+
+.fe-nav-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #1a1a1a;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 3px 6px;
+  cursor: default;
+  align-items: center;
+  justify-content: center;
+}
+.fe-nav-btn:hover { background: #e5e5e5; border-color: #d0d0d0; }
+
+/* Address bar path pill */
+.layout-file-explorer .tb-left {
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+}
+.layout-file-explorer .book-title {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #c8c8c8;
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-size: 12.5px;
+  color: #1a1a1a;
+  max-width: 440px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.layout-file-explorer .book-title::before {
+  content: 'Documents  \203A  Books  \203A  ';
+  color: #555;
+}
+
+/* Chapter select in tb-center: hide (chapters accessed via sidebar) */
+.layout-file-explorer .tb-center { display: none !important; }
+
+/* Right controls — compact, on the right of address bar */
+.layout-file-explorer .tb-right {
+  gap: 2px;
+  flex-shrink: 0;
+}
+.layout-file-explorer .tb-right::before {
+  content: 'Search Books';
+  background: #ffffff;
+  border: 1px solid #c8c8c8;
+  border-radius: 4px;
+  padding: 3px 24px 3px 8px;
+  font-size: 12px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.layout-file-explorer .layout-select-control {
+  background: #fff;
+  border: 1px solid #c8c8c8;
+  color: #1a1a1a;
+  font-size: 11px;
+  border-radius: 4px;
+}
+.layout-file-explorer .btn-icon {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #1a1a1a;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 3px 5px;
+}
+.layout-file-explorer .btn-icon:hover { background: #e5e5e5; border-color: #d0d0d0; }
+
+/* ── Command bar (el-fe-toolbar) ── */
+.layout-file-explorer .el-fe-toolbar {
+  background: #f3f3f3;
+  border-bottom: 1px solid #e0e0e0;
+  flex-direction: column;
+}
+
+.fe-cmd-bar {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 3px 8px;
+  min-height: 36px;
+}
+.fe-cmd-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #1a1a1a;
+  cursor: default;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  line-height: 1.3;
+}
+.fe-cmd-btn:hover { background: #e5e5e5; border-color: #d0d0d0; }
+.fe-new-btn { font-weight: 600; }
+.fe-details-active {
+  background: #e5e5e5;
+  border-color: #d0d0d0;
+  font-weight: 600;
+}
+.fe-cmd-sep {
+  width: 1px;
+  height: 18px;
+  background: #d0d0d0;
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+.fe-spacer { flex: 1; }
+
+/* Column headers row */
+.fe-col-headers {
+  display: flex;
+  align-items: center;
+  padding: 2px 12px 2px 14px;
+  border-top: 1px solid #e8e8e8;
+  background: #f8f8f8;
+  font-size: 12px;
+  color: #444;
+  min-height: 26px;
+  gap: 0;
+}
+.fe-col-name  { flex: 1; min-width: 0; padding-right: 8px; }
+.fe-col-date  { width: 160px; flex-shrink: 0; }
+.fe-col-type  { width: 100px; flex-shrink: 0; }
+.fe-col-size  { width: 70px; flex-shrink: 0; text-align: right; padding-right: 8px; }
+
+/* ── Sidebar (Windows nav pane) ── */
+.layout-file-explorer .el-sidebar {
+  background: #f3f3f3;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+}
+.layout-file-explorer .el-sidebar .ph-ribbon { display: none; }
+
+/* Hide outlook items and chapter list in file-explorer */
+.layout-file-explorer .outlook-nav-compose,
+.layout-file-explorer .outlook-nav-items,
+.layout-file-explorer .sidebar-header,
+.layout-file-explorer .sidebar-list { display: none !important; }
+
+/* Windows nav pane items */
+.fe-nav-section {
+  padding: 10px 16px 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #555;
+  user-select: none;
+}
+.fe-nav-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px 4px 10px;
+  font-size: 12.5px;
+  color: #1a1a1a;
+  cursor: default;
+  border-radius: 4px;
+  margin: 0 4px;
+  gap: 0;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fe-nav-item:hover { background: rgba(0,0,0,0.06); }
+.fe-nav-active {
+  background: rgba(0,0,0,0.09) !important;
+  font-weight: 600;
+}
+
+/* Folder icon via ::before (colored CSS box) */
+.fe-nav-item::before {
+  content: '';
+  display: inline-block;
+  flex-shrink: 0;
+  width: 15px;
+  height: 12px;
+  background: #e8a020;
+  border-radius: 0 2px 2px 2px;
+  margin-right: 7px;
+  position: relative;
+  top: 0px;
+}
+.fe-nav-item::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 6px;
+  height: 3px;
+  background: #e8a020;
+  border-radius: 2px 2px 0 0;
+  top: -3px;
+  left: 0;
+}
+.fe-type-home::before   { background: #666; border-radius: 2px; width: 13px; height: 13px; }
+.fe-type-gallery::before{ background: #888; border-radius: 2px; width: 13px; height: 13px; }
+.fe-type-drive::before  { background: #888; border-radius: 1px; width: 15px; height: 11px; }
+.fe-type-net::before    { background: #555; border-radius: 50%; width: 13px; height: 13px; }
+
+.fe-pin {
+  margin-left: auto;
+  font-size: 8px;
+  color: #999;
+  flex-shrink: 0;
+  padding-left: 4px;
+}
+
+/* ── Main content area ── */
+.layout-file-explorer .el-main-content {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.layout-file-explorer .el-main-content .ph-ribbon { display: none; }
+.layout-file-explorer #reader-wrapper {
+  flex: 1;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.layout-file-explorer #epub-container,
+.layout-file-explorer #pdf-container { flex: 1; }
+
+/* ── Status bar (footer) ── */
+.layout-file-explorer .el-footer {
+  background: #f3f3f3;
+  border-top: 1px solid #e0e0e0;
+  font-size: 12px;
+  color: #444;
+  padding: 0 10px;
+}
+.layout-file-explorer .footer-nav {
+  align-items: center;
+  gap: 8px;
+}
+.layout-file-explorer .btn-nav {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #1a1a1a;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 1px 8px;
+}
+.layout-file-explorer .btn-nav:hover { background: #e5e5e5; border-color: #d0d0d0; }
+.layout-file-explorer .progress-track {
+  background: #e0e0e0;
+  height: 3px;
+  border-radius: 2px;
+}
+.layout-file-explorer .progress-fill { background: #b85c28; }
+.layout-file-explorer .page-info { color: #444; font-size: 12px; }
+
+
+/* ════════════════════════════════════════════════════════════════
+   LAYOUT 7: SPREADSHEET (Excel / Google Sheets style)
+   ════════════════════════════════════════════════════════════════ */
+
+.layout-excel {
+  grid-template-areas:
+    "topbar"
+    "excelribbon"
+    "maincontent"
+    "footer";
+  grid-template-rows: auto auto 1fr 28px;
+  grid-template-columns: 1fr;
+  background: #ffffff;
+  font-family: 'Segoe UI', Calibri, system-ui, sans-serif;
+  font-size: 12px;
+}
+
+.layout-excel .el-sidebar,
+.layout-excel .el-term-prompt { display: none !important; }
+
+/* ── Title bar (green) ───────────────────────────── */
+.layout-excel .el-top-bar .real-top-bar {
+  background: #107c41;
+  color: #ffffff;
+  border-bottom: none;
+  min-height: 40px;
+}
+.layout-excel .el-top-bar .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#0d6b37,#0d6b37 5px,#107c41 5px,#107c41 10px);
+  color: rgba(255,255,255,0.3);
+  border-color: rgba(255,255,255,0.15);
+}
+.layout-excel .book-title { color: #fff; font-weight: 600; }
+.layout-excel .el-top-bar .real-top-bar .btn-icon {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border-color: rgba(255,255,255,0.25);
+}
+.layout-excel .el-top-bar .real-top-bar .btn-icon:hover { background: rgba(255,255,255,0.25); }
+.layout-excel .layout-select-control {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border-color: rgba(255,255,255,0.25);
+}
+.layout-excel #chapter-select {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border-color: rgba(255,255,255,0.25);
+}
+
+/* ── Ribbon ──────────────────────────────────────── */
+.layout-excel .el-excel-ribbon {
+  background: #f3f3f3;
+  border-bottom: 1px solid #d0d0d0;
+  flex-direction: column;
+}
+.layout-excel .el-excel-ribbon .ph-ribbon {
+  background: repeating-linear-gradient(45deg,#f3f3f3,#f3f3f3 5px,#ebebeb 5px,#ebebeb 10px);
+  color: #bbb;
+  border-color: #d0d0d0;
+}
+
+/* Ribbon tab row */
+.excel-tabs-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  padding: 0 4px;
+  background: #f3f3f3;
+  border-bottom: 1px solid #d0d0d0;
+  height: 28px;
+}
+.excel-tab {
+  padding: 0 12px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #444;
+  cursor: default;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.excel-tab:hover { background: #e6e6e6; }
+.excel-tab-active {
+  color: #107c41;
+  background: #ffffff;
+  border-bottom-color: #107c41;
+  font-weight: 600;
+}
+
+/* Ribbon button row */
+.excel-ribbon-row {
+  display: flex;
+  align-items: stretch;
+  padding: 4px 8px 2px;
+  gap: 0;
+  background: #ffffff;
+  min-height: 64px;
+  border-bottom: 1px solid #d0d0d0;
+  overflow: hidden;
+}
+.excel-rg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 8px;
+  position: relative;
+}
+.excel-rg-row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
+}
+.excel-rg-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.excel-rg-label {
+  font-size: 0.62rem;
+  color: #777;
+  text-align: center;
+  padding-top: 2px;
+  white-space: nowrap;
+}
+.excel-rg-sep {
+  width: 1px;
+  background: #d0d0d0;
+  margin: 4px 6px;
+  align-self: stretch;
+}
+.excel-rb {
+  padding: 2px 7px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  font-size: 0.72rem;
+  color: #333;
+  cursor: default;
+  white-space: nowrap;
+}
+.excel-rb:hover { background: #e6e6e6; border-color: #ccc; }
+.excel-rb-lg { font-size: 0.78rem; padding: 4px 10px; }
+.excel-rb-bold { font-weight: 900; }
+.excel-rb-italic { font-style: italic; }
+.excel-rb-ul { text-decoration: underline; }
+.excel-font-name {
+  padding: 2px 8px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-size: 0.72rem;
+  color: #333;
+  min-width: 70px;
+}
+.excel-font-size {
+  padding: 2px 5px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-size: 0.72rem;
+  color: #333;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* Formula bar */
+.excel-formula-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 26px;
+  background: #fff;
+  border-bottom: 1px solid #d0d0d0;
+  flex-shrink: 0;
+}
+.excel-cell-ref {
+  width: 60px;
+  min-width: 60px;
+  padding: 0 8px;
+  font-size: 0.78rem;
+  color: #333;
+  border-right: 1px solid #d0d0d0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.excel-fx {
+  padding: 0 10px;
+  font-size: 0.78rem;
+  color: #107c41;
+  font-style: italic;
+  font-weight: 600;
+  border-right: 1px solid #d0d0d0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.excel-formula-content {
+  flex: 1;
+  padding: 0 8px;
+  font-size: 0.78rem;
+  color: #333;
+  font-family: 'Consolas', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Spreadsheet content area ────────────────────── */
+.layout-excel .el-main-content {
+  background: #ffffff;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 20px 1fr;   /* col-header row + content */
+  grid-template-columns: 40px 1fr; /* row-number col + content */
+}
+
+/* Suppress the flex layout set in base.css */
+.layout-excel .el-main-content .ph-ribbon {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  z-index: 1;
+  border: none;
+  margin: 0;
+  border-radius: 0;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* Column header strip (A B C D …) */
+.layout-excel .el-main-content::before {
+  content: 'A\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0 B\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0 C\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0 D\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0 E\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0 F\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0 G\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0 H';
+  grid-column: 2;
+  grid-row: 1;
+  background: #f3f3f3;
+  border-bottom: 1px solid #d0d0d0;
+  border-left: 1px solid #d0d0d0;
+  font-size: 0.68rem;
+  color: #555;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  letter-spacing: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Row number strip */
+.layout-excel .el-main-content::after {
+  content: '';
+  grid-column: 1;
+  grid-row: 1 / -1;
+  background: #f3f3f3;
+  border-right: 1px solid #d0d0d0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 19px,
+    #d0d0d0 19px,
+    #d0d0d0 20px
+  );
+}
+
+/* Reader wrapper occupies the main cell area */
+.layout-excel #reader-wrapper {
+  grid-column: 2;
+  grid-row: 2;
+  overflow: auto;
+  padding: 0;
+  /* Spreadsheet grid background */
+  background-image:
+    repeating-linear-gradient(to bottom, transparent 0, transparent 19px, #e8e8e8 19px, #e8e8e8 20px),
+    repeating-linear-gradient(to right,  transparent 0, transparent 79px,  #e8e8e8 79px,  #e8e8e8 80px);
+  background-color: #fff;
+}
+
+/* Book content styled as a selected merged cell */
+.layout-excel #epub-container,
+.layout-excel #pdf-container {
+  margin: 4px;
+  background: #ffffff;
+  outline: 2px solid #107c41;
+  outline-offset: -1px;
+  min-height: calc(100% - 8px);
+  padding: 12px;
+}
+
+/* ── Sheet tabs footer ───────────────────────────── */
+.layout-excel .el-footer {
+  background: #f3f3f3;
+  border-top: 1px solid #d0d0d0;
+  padding: 0 8px;
+  font-size: 0.72rem;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.layout-excel .footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+}
+/* Sheet tab styling */
+.layout-excel .btn-nav {
+  padding: 3px 14px;
+  border: 1px solid #d0d0d0;
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+  background: #e6e6e6;
+  color: #444;
+  font-size: 0.72rem;
+  margin-right: 2px;
+}
+.layout-excel .btn-nav:hover { background: #f0f0f0; }
+/* Repurpose prev/next as sheet navigation */
+.layout-excel #btn-prev { content: 'Sheet1'; }
+.layout-excel #btn-next { content: 'Sheet2'; }
+.layout-excel .progress-track { display: none; }
+.layout-excel .page-info {
+  font-size: 0.72rem;
+  color: #555;
+  margin-left: auto;
+}
+.layout-excel .pdf-zoom-controls {
+  font-size: 0.72rem;
+  color: #555;
+}
+/* Status bar text injected via before pseudo */
+.layout-excel .footer-nav::before {
+  content: '+ New sheet';
+  padding: 0 8px;
+  color: #777;
+  cursor: default;
+  font-size: 0.72rem;
+}
+.layout-excel .footer-nav::after {
+  content: 'Ready';
+  margin-left: auto;
+  padding-right: 16px;
+  color: #555;
+  font-size: 0.72rem;
+}

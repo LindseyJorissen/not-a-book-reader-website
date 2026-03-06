@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Not A Book Reader</title>
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layouts.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       UPLOAD SCREEN
+  ═══════════════════════════════════════════════════ -->
+  <div id="upload-screen">
+    <div class="upload-hero">
+      <h1 class="app-title">Not A Book Reader</h1>
+      <p class="app-tagline">A completely innocent reader for your own files and books.<br>
+        Disclaimer: If you choose to ignore the work you should be doing and procrastinate here… I can't stop you.<br>
+        I am judging a little bit though.</p>
+    </div>
+
+    <div class="upload-section">
+      <div class="upload-dropzone" id="dropzone">
+        <div class="drop-icon">[ ]</div>
+        <p class="drop-label">Drop your EPUB or PDF here</p>
+        <p class="drop-sub">— or —</p>
+        <button class="btn-primary" id="btn-open-file">Open EPUB or PDF</button>
+        <input type="file" id="file-input" accept=".epub,.pdf" hidden>
+      </div>
+    </div>
+
+    <div class="layout-select-section">
+      <h2>Choose a disguise</h2>
+      <div class="layout-grid" id="layout-grid">
+        <button class="layout-card active" data-layout="standard">
+          <span class="layout-name">Standard Reader</span>
+          <span class="layout-desc">Clean reading layout</span>
+        </button>
+        <button class="layout-card" data-layout="email">
+          <span class="layout-name">Email Client</span>
+          <span class="layout-desc">Looks like your inbox</span>
+        </button>
+        <button class="layout-card" data-layout="terminal">
+          <span class="layout-name">Terminal</span>
+          <span class="layout-desc">Hacker mode activated</span>
+        </button>
+        <button class="layout-card" data-layout="notes">
+          <span class="layout-name">Notes App</span>
+          <span class="layout-desc">Obsidian / Notion style</span>
+        </button>
+        <button class="layout-card" data-layout="document-editor">
+          <span class="layout-name">Document Editor</span>
+          <span class="layout-desc">Google Docs look</span>
+        </button>
+        <button class="layout-card" data-layout="file-explorer">
+          <span class="layout-name">File Explorer</span>
+          <span class="layout-desc">Chapters as files</span>
+        </button>
+        <button class="layout-card" data-layout="excel">
+          <span class="layout-name">Spreadsheet</span>
+          <span class="layout-desc">Excel / Google Sheets look</span>
+        </button>
+      </div>
+    </div>
+
+    <p class="privacy-notice">This reader runs entirely in your browser. Your files never leave your device.</p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       READER SCREEN (shown after file is loaded)
+  ═══════════════════════════════════════════════════ -->
+  <div id="reader-screen" class="hidden">
+    <div id="layout-container" class="layout-standard">
+
+      <!-- TOP BAR ─────────────────────────────────── -->
+      <header class="layout-el el-top-bar" id="el-top-bar">
+        <div class="ph-ribbon" id="ph-top-bar">
+          <span class="ph-text">[ TOP BAR — APP HEADER / TOOLBAR IMAGE GOES HERE ]</span>
+        </div>
+        <div class="real-top-bar">
+          <div class="tb-left">
+            <button class="btn-icon" id="btn-back" title="Back to file picker">← Back</button>
+            <button class="fe-nav-btn" title="Forward">→</button>
+            <button class="fe-nav-btn" title="Up one level">↑</button>
+            <button class="fe-nav-btn" title="Refresh">↺</button>
+            <span class="book-title" id="book-title">Loading…</span>
+          </div>
+          <div class="tb-center" id="tb-center">
+            <!-- Chapter select injected by epub reader -->
+          </div>
+          <div class="tb-right">
+            <select id="layout-select" class="layout-select-control" title="Switch layout">
+              <option value="standard">Standard Reader</option>
+              <option value="email">Email Client</option>
+              <option value="terminal">Terminal</option>
+              <option value="notes">Notes App</option>
+              <option value="document-editor">Document Editor</option>
+              <option value="file-explorer">File Explorer</option>
+              <option value="excel">Spreadsheet</option>
+            </select>
+            <button class="btn-icon" id="btn-toggle-ph" title="Toggle placeholders">[ ]</button>
+            <button class="btn-icon" id="btn-dark" title="Toggle dark mode">◑</button>
+            <button class="btn-icon" id="btn-font-sm" title="Smaller text">A−</button>
+            <button class="btn-icon" id="btn-font-lg" title="Larger text">A+</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- SIDEBAR ─────────────────────────────────── -->
+      <aside class="layout-el el-sidebar" id="el-sidebar">
+        <div class="ph-ribbon" id="ph-sidebar">
+          <span class="ph-text">[ SIDEBAR IMAGE GOES HERE ]</span>
+        </div>
+        <div class="real-sidebar">
+          <!-- Windows File Explorer nav pane (file-explorer layout only) -->
+          <div class="fe-nav-items" id="fe-nav-items">
+            <div class="fe-nav-item fe-type-home">Home</div>
+            <div class="fe-nav-item fe-type-gallery">Gallery</div>
+            <div class="fe-nav-section">Quick access</div>
+            <div class="fe-nav-item fe-type-folder">Desktop <span class="fe-pin">&#9642;</span></div>
+            <div class="fe-nav-item fe-type-folder">Downloads <span class="fe-pin">&#9642;</span></div>
+            <div class="fe-nav-item fe-type-folder">Documents <span class="fe-pin">&#9642;</span></div>
+            <div class="fe-nav-item fe-type-folder fe-nav-active" id="fe-active-folder">Books <span class="fe-pin">&#9642;</span></div>
+            <div class="fe-nav-item fe-type-folder">Pictures <span class="fe-pin">&#9642;</span></div>
+            <div class="fe-nav-item fe-type-folder">Music</div>
+            <div class="fe-nav-item fe-type-folder">Videos</div>
+            <div class="fe-nav-section">This PC</div>
+            <div class="fe-nav-item fe-type-drive">Windows (C:)</div>
+            <div class="fe-nav-item fe-type-net">Network</div>
+          </div>
+          <!-- Outlook nav rail static items -->
+          <div class="outlook-nav-compose" id="outlook-compose-btn">+ New message</div>
+          <div class="outlook-nav-items">
+            <div class="outlook-nav-item">Mark all as read</div>
+            <div class="outlook-nav-section">Folders</div>
+            <div class="outlook-nav-item outlook-nav-active">
+              <span class="outlook-nav-icon">&#9709;</span> Inbox
+              <span class="outlook-nav-badge" id="outlook-badge">0</span>
+            </div>
+            <div class="outlook-nav-item"><span class="outlook-nav-icon">&#9998;</span> Drafts</div>
+            <div class="outlook-nav-item"><span class="outlook-nav-icon">&#9658;</span> Sent Items</div>
+            <div class="outlook-nav-item"><span class="outlook-nav-icon">&#128465;</span> Deleted Items</div>
+            <div class="outlook-nav-item"><span class="outlook-nav-icon">&#9888;</span> Junk Email</div>
+            <div class="outlook-nav-item"><span class="outlook-nav-icon">&#9783;</span> Archive</div>
+            <div class="outlook-nav-item"><span class="outlook-nav-icon">&#9776;</span> Notes</div>
+            <div class="outlook-nav-section">My Folders</div>
+          </div>
+          <!-- sidebar-list / sidebar-header still used by non-email layouts -->
+          <div class="sidebar-header hidden" id="sidebar-header">Chapters</div>
+          <div class="sidebar-list hidden" id="sidebar-list"></div>
+        </div>
+      </aside>
+
+      <!-- EMAIL LIST PANEL (email layout only) ───────── -->
+      <div class="layout-el el-email-list" id="el-email-list">
+        <div class="ph-ribbon" id="ph-email-list">
+          <span class="ph-text">[ EMAIL LIST — INBOX MESSAGES IMAGE GOES HERE ]</span>
+        </div>
+        <div class="real-email-list">
+          <div class="email-list-header">
+            <span class="email-list-title">Inbox</span>
+            <button class="email-filter-btn">Filter</button>
+          </div>
+          <div class="email-list-items" id="email-list-items">
+            <!-- Populated from TOC / page list -->
+          </div>
+        </div>
+      </div>
+
+      <!-- EXCEL RIBBON (excel layout only) ──────────── -->
+      <div class="layout-el el-excel-ribbon" id="el-excel-ribbon">
+        <div class="ph-ribbon">
+          <span class="ph-text">[ RIBBON — EXCEL TOOLBAR IMAGE GOES HERE ]</span>
+        </div>
+        <div class="excel-tabs-row">
+          <span class="excel-tab">File</span>
+          <span class="excel-tab excel-tab-active">Home</span>
+          <span class="excel-tab">Insert</span>
+          <span class="excel-tab">Page Layout</span>
+          <span class="excel-tab">Formulas</span>
+          <span class="excel-tab">Data</span>
+          <span class="excel-tab">Review</span>
+          <span class="excel-tab">View</span>
+        </div>
+        <div class="excel-ribbon-row">
+          <div class="excel-rg">
+            <button class="excel-rb excel-rb-lg">Paste</button>
+            <div class="excel-rg-mini">
+              <button class="excel-rb">Cut</button>
+              <button class="excel-rb">Copy</button>
+              <button class="excel-rb">Format Painter</button>
+            </div>
+            <div class="excel-rg-label">Clipboard</div>
+          </div>
+          <div class="excel-rg-sep"></div>
+          <div class="excel-rg">
+            <div class="excel-rg-row">
+              <span class="excel-font-name">Calibri</span>
+              <span class="excel-font-size">11</span>
+              <button class="excel-rb excel-rb-bold">B</button>
+              <button class="excel-rb excel-rb-italic">I</button>
+              <button class="excel-rb excel-rb-ul">U</button>
+            </div>
+            <div class="excel-rg-label">Font</div>
+          </div>
+          <div class="excel-rg-sep"></div>
+          <div class="excel-rg">
+            <div class="excel-rg-row">
+              <button class="excel-rb">Wrap Text</button>
+              <button class="excel-rb">Merge &amp; Center</button>
+            </div>
+            <div class="excel-rg-label">Alignment</div>
+          </div>
+          <div class="excel-rg-sep"></div>
+          <div class="excel-rg">
+            <div class="excel-rg-row">
+              <button class="excel-rb">General</button>
+              <button class="excel-rb">%</button>
+              <button class="excel-rb">&#44;</button>
+            </div>
+            <div class="excel-rg-label">Number</div>
+          </div>
+        </div>
+        <div class="excel-formula-bar">
+          <div class="excel-cell-ref">A1</div>
+          <div class="excel-fx">fx</div>
+          <div class="excel-formula-content" id="excel-formula-content">=VLOOKUP(A1,Books!A:Z,2,FALSE)</div>
+        </div>
+      </div>
+
+      <!-- FILE EXPLORER COMMAND BAR (file-explorer layout only) ── -->
+      <div class="layout-el el-fe-toolbar" id="el-fe-toolbar">
+        <div class="fe-cmd-bar">
+          <button class="fe-cmd-btn fe-new-btn">+ New &#8964;</button>
+          <div class="fe-cmd-sep"></div>
+          <button class="fe-cmd-btn">Cut</button>
+          <button class="fe-cmd-btn">Copy</button>
+          <button class="fe-cmd-btn">Paste</button>
+          <button class="fe-cmd-btn">Rename</button>
+          <button class="fe-cmd-btn">Share</button>
+          <button class="fe-cmd-btn">Delete</button>
+          <div class="fe-cmd-sep"></div>
+          <button class="fe-cmd-btn">Sort &#8964;</button>
+          <button class="fe-cmd-btn">View &#8964;</button>
+          <button class="fe-cmd-btn">&#8943;</button>
+          <div class="fe-spacer"></div>
+          <button class="fe-cmd-btn fe-details-active">Details</button>
+        </div>
+        <div class="fe-col-headers">
+          <span class="fe-col-name">Name &#8963;</span>
+          <span class="fe-col-date">Date modified</span>
+          <span class="fe-col-type">Type</span>
+          <span class="fe-col-size">Size</span>
+        </div>
+      </div>
+
+      <!-- MESSAGE HEADER (email layout) ───────────── -->
+      <div class="layout-el el-msg-header" id="el-msg-header">
+        <div class="ph-ribbon" id="ph-msg-header">
+          <span class="ph-text">[ MESSAGE HEADER — EMAIL SUBJECT / SENDER IMAGE GOES HERE ]</span>
+        </div>
+        <div class="real-msg-header">
+          <div class="outlook-msg-subject" id="outlook-subject">Loading…</div>
+          <div class="outlook-msg-sender-row">
+            <div class="outlook-avatar" id="outlook-avatar">A</div>
+            <div class="outlook-sender-meta">
+              <div class="outlook-sender-name" id="outlook-sender-name">Author</div>
+              <div class="outlook-sender-to">To: me</div>
+            </div>
+            <div class="outlook-msg-time" id="outlook-msg-time">—</div>
+          </div>
+          <div class="outlook-toolbar">
+            <button class="outlook-tb-btn">Reply</button>
+            <button class="outlook-tb-btn">Reply all</button>
+            <button class="outlook-tb-btn">Forward</button>
+            <span class="outlook-tb-sep"></span>
+            <button class="outlook-tb-btn">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TERMINAL PROMPT (terminal layout) ───────── -->
+      <div class="layout-el el-term-prompt" id="el-term-prompt">
+        <span class="term-user">reader@not-a-book</span><span class="term-sep">:</span><span class="term-path">~/documents</span><span class="term-dollar">$</span>
+        <span class="term-cmd" id="term-cmd">cat document.epub</span>
+        <span class="term-cursor">█</span>
+      </div>
+
+      <!-- MAIN CONTENT ─────────────────────────────── -->
+      <main class="layout-el el-main-content" id="el-main-content">
+        <div class="ph-ribbon content-ph" id="ph-content">
+          <span class="ph-text">[ CONTENT AREA — DOCUMENT RENDERED HERE ]</span>
+        </div>
+        <div id="reader-wrapper">
+          <div id="epub-container"></div>
+          <div id="pdf-container" class="hidden"></div>
+        </div>
+      </main>
+
+      <!-- PROGRESS / NAV FOOTER ───────────────────── -->
+      <footer class="layout-el el-footer" id="el-footer">
+        <div class="footer-nav">
+          <button class="btn-nav" id="btn-prev">‹ Prev</button>
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+          </div>
+          <span class="page-info" id="page-info">—</span>
+          <button class="btn-nav" id="btn-next">Next ›</button>
+        </div>
+        <div class="pdf-zoom-controls hidden" id="pdf-zoom">
+          <button class="btn-icon" id="btn-zoom-out" title="Zoom out">−</button>
+          <span id="zoom-label">150%</span>
+          <button class="btn-icon" id="btn-zoom-in" title="Zoom in">+</button>
+        </div>
+      </footer>
+
+    </div><!-- /layout-container -->
+  </div><!-- /reader-screen -->
+
+
+  <!-- ═══════════════════════════════════════════════════
+       LOADING OVERLAY
+  ═══════════════════════════════════════════════════ -->
+  <div id="loading-overlay" class="hidden">
+    <div class="loading-box">
+      <div class="loading-spinner"></div>
+      <p id="loading-msg">Opening file…</p>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       LIBRARIES (100% client-side, CDN)
+  ═══════════════════════════════════════════════════ -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <!-- APP SCRIPTS -->
+  <script src="js/epub-reader.js"></script>
+  <script src="js/pdf-reader.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
