@@ -162,42 +162,123 @@
           <span class="excel-tab">View</span>
         </div>
         <div class="excel-ribbon-row">
+          <!-- CLIPBOARD -->
           <div class="excel-rg">
-            <button class="excel-rb excel-rb-lg">Paste</button>
-            <div class="excel-rg-mini">
-              <button class="excel-rb">Cut</button>
-              <button class="excel-rb">Copy</button>
-              <button class="excel-rb">Format Painter</button>
+            <div class="excel-rg-body-split">
+              <button class="excel-rb excel-rb-paste">
+                <span class="excel-paste-icon">⎘</span>
+                <span>Paste</span><span class="excel-rb-chevron">▾</span>
+              </button>
+              <div class="excel-rg-stack">
+                <button class="excel-rb excel-rb-sm">✂ Cut</button>
+                <button class="excel-rb excel-rb-sm">⎘ Copy <span class="excel-rb-chevron">▾</span></button>
+                <button class="excel-rb excel-rb-sm">🖌 Format Painter</button>
+              </div>
             </div>
-            <div class="excel-rg-label">Clipboard</div>
+            <div class="excel-rg-label">Clipboard <span class="excel-rg-exp">⌃</span></div>
           </div>
           <div class="excel-rg-sep"></div>
+          <!-- FONT -->
           <div class="excel-rg">
-            <div class="excel-rg-row">
-              <span class="excel-font-name">Calibri</span>
-              <span class="excel-font-size">11</span>
-              <button class="excel-rb excel-rb-bold">B</button>
-              <button class="excel-rb excel-rb-italic">I</button>
-              <button class="excel-rb excel-rb-ul">U</button>
+            <div class="excel-rg-rows">
+              <div class="excel-rg-row">
+                <span class="excel-input-wide">Aptos Narrow ▾</span>
+                <span class="excel-input-narrow">11 ▾</span>
+                <button class="excel-rb" title="Increase Font Size">A+</button>
+                <button class="excel-rb" title="Decrease Font Size">A−</button>
+              </div>
+              <div class="excel-rg-row">
+                <button class="excel-rb excel-rb-bold" title="Bold">B</button>
+                <button class="excel-rb excel-rb-italic" title="Italic">I</button>
+                <button class="excel-rb excel-rb-ul" title="Underline">U <span class="excel-rb-chevron">▾</span></button>
+                <button class="excel-rb excel-rb-strike" title="Strikethrough">S̶</button>
+                <span class="excel-rg-mini-sep"></span>
+                <button class="excel-rb" title="Borders">⊞ <span class="excel-rb-chevron">▾</span></button>
+                <button class="excel-rb excel-rb-fillcolor" title="Fill Color">A <span class="excel-rb-chevron">▾</span></button>
+                <button class="excel-rb excel-rb-fontcolor" title="Font Color">A <span class="excel-rb-chevron">▾</span></button>
+              </div>
             </div>
-            <div class="excel-rg-label">Font</div>
+            <div class="excel-rg-label">Font <span class="excel-rg-exp">⌃</span></div>
           </div>
           <div class="excel-rg-sep"></div>
+          <!-- ALIGNMENT -->
           <div class="excel-rg">
-            <div class="excel-rg-row">
-              <button class="excel-rb">Wrap Text</button>
-              <button class="excel-rb">Merge &amp; Center</button>
+            <div class="excel-rg-rows">
+              <div class="excel-rg-row">
+                <button class="excel-rb" title="Top Align">⬆≡</button>
+                <button class="excel-rb" title="Middle Align">⬅≡</button>
+                <button class="excel-rb" title="Bottom Align">⬇≡</button>
+                <span class="excel-rg-mini-sep"></span>
+                <button class="excel-rb" title="Orientation">↺A</button>
+                <button class="excel-rb" title="Increase Indent">→|</button>
+              </div>
+              <div class="excel-rg-row">
+                <button class="excel-rb" title="Align Left">≡←</button>
+                <button class="excel-rb" title="Center">☰</button>
+                <button class="excel-rb" title="Align Right">≡→</button>
+                <span class="excel-rg-mini-sep"></span>
+                <button class="excel-rb" title="Decrease Indent">⇤</button>
+                <button class="excel-rb" title="Increase Indent">⇥</button>
+                <span class="excel-rg-mini-sep"></span>
+                <button class="excel-rb">Wrap Text</button>
+                <button class="excel-rb">Merge &amp; Center <span class="excel-rb-chevron">▾</span></button>
+              </div>
             </div>
-            <div class="excel-rg-label">Alignment</div>
+            <div class="excel-rg-label">Alignment <span class="excel-rg-exp">⌃</span></div>
           </div>
           <div class="excel-rg-sep"></div>
+          <!-- NUMBER -->
           <div class="excel-rg">
-            <div class="excel-rg-row">
-              <button class="excel-rb">General</button>
-              <button class="excel-rb">%</button>
-              <button class="excel-rb">&#44;</button>
+            <div class="excel-rg-rows">
+              <div class="excel-rg-row">
+                <span class="excel-input-wide">General ▾</span>
+              </div>
+              <div class="excel-rg-row">
+                <button class="excel-rb">$ <span class="excel-rb-chevron">▾</span></button>
+                <button class="excel-rb">%</button>
+                <button class="excel-rb">,</button>
+                <span class="excel-rg-mini-sep"></span>
+                <button class="excel-rb" title="Increase Decimal">.0↑</button>
+                <button class="excel-rb" title="Decrease Decimal">.0↓</button>
+              </div>
             </div>
-            <div class="excel-rg-label">Number</div>
+            <div class="excel-rg-label">Number <span class="excel-rg-exp">⌃</span></div>
+          </div>
+          <div class="excel-rg-sep"></div>
+          <!-- STYLES -->
+          <div class="excel-rg">
+            <div class="excel-rg-body-vert">
+              <button class="excel-rb excel-rb-styles">Conditional Formatting <span class="excel-rb-chevron">▾</span></button>
+              <button class="excel-rb excel-rb-styles">Format as Table <span class="excel-rb-chevron">▾</span></button>
+              <button class="excel-rb excel-rb-styles">Cell Styles <span class="excel-rb-chevron">▾</span></button>
+            </div>
+            <div class="excel-rg-label">Styles</div>
+          </div>
+          <div class="excel-rg-sep"></div>
+          <!-- CELLS -->
+          <div class="excel-rg">
+            <div class="excel-rg-body-vert">
+              <button class="excel-rb">Insert <span class="excel-rb-chevron">▾</span></button>
+              <button class="excel-rb">Delete <span class="excel-rb-chevron">▾</span></button>
+              <button class="excel-rb">Format <span class="excel-rb-chevron">▾</span></button>
+            </div>
+            <div class="excel-rg-label">Cells</div>
+          </div>
+          <div class="excel-rg-sep"></div>
+          <!-- EDITING -->
+          <div class="excel-rg">
+            <div class="excel-rg-body-split">
+              <div class="excel-rg-body-vert">
+                <button class="excel-rb">Σ AutoSum <span class="excel-rb-chevron">▾</span></button>
+                <button class="excel-rb">↓ Fill <span class="excel-rb-chevron">▾</span></button>
+                <button class="excel-rb">✕ Clear <span class="excel-rb-chevron">▾</span></button>
+              </div>
+              <div class="excel-rg-body-vert">
+                <button class="excel-rb">Sort &amp; Filter <span class="excel-rb-chevron">▾</span></button>
+                <button class="excel-rb">Find &amp; Select <span class="excel-rb-chevron">▾</span></button>
+              </div>
+            </div>
+            <div class="excel-rg-label">Editing</div>
           </div>
         </div>
         <div class="excel-formula-bar">

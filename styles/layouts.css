@@ -966,9 +966,9 @@
 }
 .layout-excel .el-top-bar .real-top-bar .btn-icon:hover { background: rgba(255,255,255,0.25); }
 .layout-excel .layout-select-control {
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-  border-color: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.9);
+  color: #333;
+  border-color: rgba(255,255,255,0.5);
 }
 .layout-excel #chapter-select {
   background: rgba(255,255,255,0.15);
@@ -1092,6 +1092,135 @@
   color: #333;
   min-width: 28px;
   text-align: center;
+}
+
+/* ── Extended ribbon layout ─────────────────────── */
+.excel-rg-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  justify-content: center;
+}
+.excel-rg-body-split {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+.excel-rg-body-vert {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  justify-content: center;
+  width: 100%;
+}
+.excel-rg-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.excel-rb-paste {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  min-height: 50px;
+  padding: 4px 6px;
+  font-size: 0.7rem;
+  gap: 1px;
+}
+.excel-paste-icon {
+  font-size: 1.4rem;
+  line-height: 1.1;
+}
+.excel-rb-sm {
+  padding: 2px 5px;
+  font-size: 0.68rem;
+  text-align: left;
+  white-space: nowrap;
+}
+.excel-rb-chevron {
+  font-size: 0.55rem;
+  opacity: 0.7;
+  margin-left: 1px;
+}
+.excel-rg-exp {
+  font-size: 0.6rem;
+  color: #aaa;
+  margin-left: 2px;
+}
+.excel-rg-mini-sep {
+  width: 1px;
+  height: 14px;
+  background: #d0d0d0;
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+.excel-rb-strike { text-decoration: line-through; }
+.excel-input-wide {
+  display: inline-block;
+  padding: 2px 6px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-size: 0.72rem;
+  color: #333;
+  min-width: 88px;
+  max-width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+.excel-input-narrow {
+  display: inline-block;
+  padding: 2px 4px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-size: 0.72rem;
+  color: #333;
+  width: 30px;
+  text-align: center;
+  cursor: default;
+}
+.excel-rb-styles {
+  font-size: 0.68rem;
+  text-align: left;
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+.excel-rb-fillcolor {
+  position: relative;
+  padding-bottom: 8px;
+}
+.excel-rb-fillcolor::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 4px;
+  right: 4px;
+  height: 3px;
+  background: #ffd700;
+  border-radius: 1px;
+}
+.excel-rb-fontcolor {
+  position: relative;
+  padding-bottom: 8px;
+}
+.excel-rb-fontcolor::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 4px;
+  right: 4px;
+  height: 3px;
+  background: #ff4444;
+  border-radius: 1px;
 }
 
 /* Formula bar */
