@@ -7,81 +7,30 @@ const LAYOUTS = {
   standard: {
     name: 'Standard Reader',
     epubTheme: 'light',
-    placeholders: {
-      topbar:  '[ TOP BAR — APP HEADER / TOOLBAR IMAGE GOES HERE ]',
-      content: '[ CONTENT AREA — DOCUMENT RENDERED HERE ]',
-    },
-    termCmd: null,
     sidebarLabel: 'Chapters',
     emailFrom: null,
   },
   email: {
     name: 'Email Client',
     epubTheme: 'light',
-    placeholders: {
-      topbar:     '[ TOP BAR — EMAIL CLIENT HEADER IMAGE GOES HERE ]',
-      sidebar:    '[ LEFT SIDEBAR — EMAIL FOLDER LIST IMAGE GOES HERE ]',
-      msgheader:  '[ MESSAGE HEADER — EMAIL SUBJECT / SENDER IMAGE GOES HERE ]',
-      content:    '[ EMAIL BODY AREA — DOCUMENT RENDERED HERE ]',
-    },
-    termCmd: null,
     sidebarLabel: 'Folders',
     emailFrom: 'library@yourbookshelf.local',
-  },
-  terminal: {
-    name: 'Terminal',
-    epubTheme: 'terminal',
-    placeholders: {
-      topbar:  '[ TERMINAL HEADER BAR — WINDOW CONTROLS IMAGE GOES HERE ]',
-      content: '[ TERMINAL OUTPUT AREA — DOCUMENT RENDERED HERE ]',
-    },
-    termCmd: 'cat document.epub | read --mode=focus',
-    sidebarLabel: null,
-    emailFrom: null,
-  },
-  notes: {
-    name: 'Notes App',
-    epubTheme: 'notes',
-    placeholders: {
-      topbar:   '[ TOP BAR — NOTES APP HEADER IMAGE GOES HERE ]',
-      sidebar:  '[ LEFT SIDEBAR — NOTE TREE / FOLDER IMAGE GOES HERE ]',
-      content:  '[ MAIN DOCUMENT AREA — DOCUMENT RENDERED HERE ]',
-    },
-    termCmd: null,
-    sidebarLabel: 'Notes',
-    emailFrom: null,
   },
   'document-editor': {
     name: 'Document Editor',
     epubTheme: 'light',
-    placeholders: {
-      topbar:  '[ TOOLBAR — EDITOR BUTTONS IMAGE GOES HERE ]',
-      content: '[ DOCUMENT PAGE AREA — DOCUMENT RENDERED HERE ]',
-    },
-    termCmd: null,
     sidebarLabel: null,
     emailFrom: null,
   },
   'file-explorer': {
     name: 'File Explorer',
     epubTheme: 'light',
-    placeholders: {
-      topbar:   '[ TOP BAR — FILE EXPLORER HEADER IMAGE GOES HERE ]',
-      sidebar:  '[ LEFT SIDEBAR — CHAPTERS AS FILES / FOLDERS GOES HERE ]',
-      content:  '[ DOCUMENT VIEWER — FILE CONTENT RENDERED HERE ]',
-    },
-    termCmd: null,
     sidebarLabel: 'This PC > Documents > Books',
     emailFrom: null,
   },
   excel: {
     name: 'Spreadsheet',
     epubTheme: 'light',
-    placeholders: {
-      topbar:  '[ RIBBON — EXCEL TOOLBAR IMAGE GOES HERE ]',
-      content: '[ SPREADSHEET CELL — DOCUMENT RENDERED HERE ]',
-    },
-    termCmd: null,
     sidebarLabel: null,
     emailFrom: null,
   },
@@ -92,7 +41,6 @@ const state = {
   layout: localStorage.getItem('nabr-layout') || 'standard',
   fileType: null,   // 'epub' | 'pdf'
   isDark: localStorage.getItem('nabr-dark') === 'true',
-  showPH: localStorage.getItem('nabr-placeholders') !== 'false',
   fontSize: parseInt(localStorage.getItem('nabr-fontsize') || '100', 10),
   epubReader: null,
   pdfReader: null,
@@ -120,7 +68,6 @@ const dom = {
   btnDark:        $('btn-dark'),
   btnFontSm:      $('btn-font-sm'),
   btnFontLg:      $('btn-font-lg'),
-  btnTogglePH:    $('btn-toggle-ph'),
   layoutSelect:   $('layout-select'),
   bookTitle:      $('book-title'),
   tbCenter:       $('tb-center'),
@@ -135,7 +82,6 @@ const dom = {
   outlookSender:  $('outlook-sender-name'),
   outlookTime:    $('outlook-msg-time'),
   outlookBadge:   $('outlook-badge'),
-  termCmd:        $('term-cmd'),
   pdfZoom:        $('pdf-zoom'),
   btnZoomIn:      $('btn-zoom-in'),
   btnZoomOut:     $('btn-zoom-out'),
@@ -143,11 +89,6 @@ const dom = {
   epubContainer:  $('epub-container'),
   pdfContainer:   $('pdf-container'),
   feActiveFolder: $('fe-active-folder'),
-  // Placeholders
-  phTopbar:  $('ph-top-bar'),
-  phSidebar: $('ph-sidebar'),
-  phMsgHdr:  $('ph-msg-header'),
-  phContent: $('ph-content'),
 };
 
 /* ════════════════════════════════════════════════════════════════
@@ -156,7 +97,6 @@ const dom = {
 function init() {
   // Apply saved preferences immediately
   applyDarkMode(state.isDark, false);
-  applyPlaceholderVisibility(state.showPH);
 
   // Upload screen: file open button (stopPropagation prevents bubbling to dropzone)
   dom.btnOpenFile.addEventListener('click', (e) => {
@@ -211,9 +151,6 @@ function init() {
   // Font size
   dom.btnFontSm.addEventListener('click', () => changeFontSize(-10));
   dom.btnFontLg.addEventListener('click', () => changeFontSize(+10));
-
-  // Placeholder toggle
-  dom.btnTogglePH.addEventListener('click', () => applyPlaceholderVisibility(!state.showPH));
 
   // PDF zoom
   dom.btnZoomIn.addEventListener('click', () => {
@@ -270,7 +207,6 @@ async function loadEPUB(arrayBuffer) {
       showReaderScreen();
       switchLayout(state.layout);
       dom.bookTitle.textContent = title;
-      dom.termCmd.textContent = `cat "${title}.epub"`;
       state.toc = toc;
       state.bookAuthor = author || '';
       buildSidebar(toc);
@@ -311,7 +247,6 @@ async function loadPDF(arrayBuffer) {
       showReaderScreen();
       switchLayout(state.layout);
       dom.bookTitle.textContent = title;
-      dom.termCmd.textContent = `cat "${title}.pdf"`;
       // No TOC for PDF — hide chapter nav
       dom.tbCenter.innerHTML = '';
       buildEmailList(title, '');
@@ -366,29 +301,9 @@ function switchLayout(layoutKey) {
   // Update layout select dropdown
   dom.layoutSelect.value = layoutKey;
 
-  // Update placeholder text
-  dom.phTopbar.querySelector('.ph-text').textContent =
-    cfg.placeholders.topbar || '';
-  dom.phSidebar.querySelector('.ph-text').textContent =
-    cfg.placeholders.sidebar || '';
-  dom.phMsgHdr.querySelector('.ph-text').textContent =
-    cfg.placeholders.msgheader || '';
-  dom.phContent.querySelector('.ph-text').textContent =
-    cfg.placeholders.content || '';
-
   // Sidebar label
   if (cfg.sidebarLabel !== null) {
     dom.sidebarHeader.textContent = cfg.sidebarLabel;
-  }
-
-  // Terminal command text
-  if (cfg.termCmd) {
-    dom.termCmd.textContent = cfg.termCmd;
-  } else if (dom.bookTitle.textContent) {
-    const title = dom.bookTitle.textContent;
-    dom.termCmd.textContent = state.fileType === 'epub'
-      ? `cat "${title}.epub"`
-      : `cat "${title}.pdf"`;
   }
 
   // Re-build email list when switching back to email layout
@@ -596,7 +511,6 @@ function applyDarkMode(dark, save = true) {
     const cfg = LAYOUTS[state.layout] || LAYOUTS.standard;
     let theme = cfg.epubTheme;
     if (dark && theme === 'light') theme = 'dark';
-    if (theme === 'terminal') theme = 'terminal'; // terminal always dark
     state.epubReader.setTheme(theme);
   }
 }
@@ -605,14 +519,6 @@ function changeFontSize(delta) {
   state.fontSize = Math.max(70, Math.min(160, state.fontSize + delta));
   localStorage.setItem('nabr-fontsize', String(state.fontSize));
   state.epubReader?.setFontSize(state.fontSize);
-}
-
-function applyPlaceholderVisibility(show) {
-  state.showPH = show;
-  document.body.classList.toggle('ph-hidden', !show);
-  dom.btnTogglePH.textContent = show ? '[ ]' : '[x]';
-  dom.btnTogglePH.title = show ? 'Hide placeholders' : 'Show placeholders';
-  localStorage.setItem('nabr-placeholders', String(show));
 }
 
 /* ════════════════════════════════════════════════════════════════

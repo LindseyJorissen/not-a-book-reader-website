@@ -41,14 +41,6 @@
           <span class="layout-name">Email Client</span>
           <span class="layout-desc">Looks like your inbox</span>
         </button>
-        <button class="layout-card" data-layout="terminal">
-          <span class="layout-name">Terminal</span>
-          <span class="layout-desc">Hacker mode activated</span>
-        </button>
-        <button class="layout-card" data-layout="notes">
-          <span class="layout-name">Notes App</span>
-          <span class="layout-desc">Obsidian / Notion style</span>
-        </button>
         <button class="layout-card" data-layout="document-editor">
           <span class="layout-name">Document Editor</span>
           <span class="layout-desc">Google Docs look</span>
@@ -76,9 +68,6 @@
 
       <!-- TOP BAR ─────────────────────────────────── -->
       <header class="layout-el el-top-bar" id="el-top-bar">
-        <div class="ph-ribbon" id="ph-top-bar">
-          <span class="ph-text">[ TOP BAR — APP HEADER / TOOLBAR IMAGE GOES HERE ]</span>
-        </div>
         <div class="real-top-bar">
           <div class="tb-left">
             <button class="btn-icon" id="btn-back" title="Back to file picker">← Back</button>
@@ -94,13 +83,10 @@
             <select id="layout-select" class="layout-select-control" title="Switch layout">
               <option value="standard">Standard Reader</option>
               <option value="email">Email Client</option>
-              <option value="terminal">Terminal</option>
-              <option value="notes">Notes App</option>
               <option value="document-editor">Document Editor</option>
               <option value="file-explorer">File Explorer</option>
               <option value="excel">Spreadsheet</option>
             </select>
-            <button class="btn-icon" id="btn-toggle-ph" title="Toggle placeholders">[ ]</button>
             <button class="btn-icon" id="btn-dark" title="Toggle dark mode">◑</button>
             <button class="btn-icon" id="btn-font-sm" title="Smaller text">A−</button>
             <button class="btn-icon" id="btn-font-lg" title="Larger text">A+</button>
@@ -110,9 +96,6 @@
 
       <!-- SIDEBAR ─────────────────────────────────── -->
       <aside class="layout-el el-sidebar" id="el-sidebar">
-        <div class="ph-ribbon" id="ph-sidebar">
-          <span class="ph-text">[ SIDEBAR IMAGE GOES HERE ]</span>
-        </div>
         <div class="real-sidebar">
           <!-- Windows File Explorer nav pane (file-explorer layout only) -->
           <div class="fe-nav-items" id="fe-nav-items">
@@ -155,9 +138,6 @@
 
       <!-- EMAIL LIST PANEL (email layout only) ───────── -->
       <div class="layout-el el-email-list" id="el-email-list">
-        <div class="ph-ribbon" id="ph-email-list">
-          <span class="ph-text">[ EMAIL LIST — INBOX MESSAGES IMAGE GOES HERE ]</span>
-        </div>
         <div class="real-email-list">
           <div class="email-list-header">
             <span class="email-list-title">Inbox</span>
@@ -171,9 +151,6 @@
 
       <!-- EXCEL RIBBON (excel layout only) ──────────── -->
       <div class="layout-el el-excel-ribbon" id="el-excel-ribbon">
-        <div class="ph-ribbon">
-          <span class="ph-text">[ RIBBON — EXCEL TOOLBAR IMAGE GOES HERE ]</span>
-        </div>
         <div class="excel-tabs-row">
           <span class="excel-tab">File</span>
           <span class="excel-tab excel-tab-active">Home</span>
@@ -258,9 +235,6 @@
 
       <!-- MESSAGE HEADER (email layout) ───────────── -->
       <div class="layout-el el-msg-header" id="el-msg-header">
-        <div class="ph-ribbon" id="ph-msg-header">
-          <span class="ph-text">[ MESSAGE HEADER — EMAIL SUBJECT / SENDER IMAGE GOES HERE ]</span>
-        </div>
         <div class="real-msg-header">
           <div class="outlook-msg-subject" id="outlook-subject">Loading…</div>
           <div class="outlook-msg-sender-row">
@@ -281,18 +255,8 @@
         </div>
       </div>
 
-      <!-- TERMINAL PROMPT (terminal layout) ───────── -->
-      <div class="layout-el el-term-prompt" id="el-term-prompt">
-        <span class="term-user">reader@not-a-book</span><span class="term-sep">:</span><span class="term-path">~/documents</span><span class="term-dollar">$</span>
-        <span class="term-cmd" id="term-cmd">cat document.epub</span>
-        <span class="term-cursor">█</span>
-      </div>
-
       <!-- MAIN CONTENT ─────────────────────────────── -->
       <main class="layout-el el-main-content" id="el-main-content">
-        <div class="ph-ribbon content-ph" id="ph-content">
-          <span class="ph-text">[ CONTENT AREA — DOCUMENT RENDERED HERE ]</span>
-        </div>
         <div id="reader-wrapper">
           <div id="epub-container"></div>
           <div id="pdf-container" class="hidden"></div>
