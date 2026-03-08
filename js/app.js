@@ -88,7 +88,11 @@ const dom = {
   zoomLabel:      $('zoom-label'),
   epubContainer:  $('epub-container'),
   pdfContainer:   $('pdf-container'),
-  feActiveFolder: $('fe-active-folder'),
+  feActiveFolder:   $('fe-active-folder'),
+  feBookRow:        $('fe-book-row'),
+  feBookFilename:   $('fe-book-filename'),
+  feBookFiletype:   $('fe-book-filetype'),
+  feBookFilesize:   $('fe-book-filesize'),
 };
 
 /* ════════════════════════════════════════════════════════════════
@@ -214,6 +218,7 @@ async function loadEPUB(arrayBuffer) {
       buildEmailList(title, author || '');
       _updateFormulaBar(title);
       _updateFeFolder(title);
+      _updateFeBookRow(title, 'epub');
     },
     onProgress: (fraction) => {
       updateProgressBar(fraction);
@@ -252,6 +257,7 @@ async function loadPDF(arrayBuffer) {
       buildEmailList(title, '');
       _updateFormulaBar(title);
       _updateFeFolder(title);
+      _updateFeBookRow(title, 'pdf');
     },
     onProgress: (fraction) => {
       updateProgressBar(fraction);
@@ -472,6 +478,18 @@ function buildEmailList(title, authorName) {
 function _updateFormulaBar(title) {
   const el = document.getElementById('excel-formula-content');
   if (el) el.textContent = `=VLOOKUP("${title}",Library!A:Z,2,FALSE)`;
+}
+
+function _updateFeBookRow(title, fileType) {
+  if (!dom.feBookFilename) return;
+  const ext = fileType === 'pdf' ? '.pdf' : '.epub';
+  const typeLabel = fileType === 'pdf' ? 'PDF Document' : 'EPUB Document';
+  dom.feBookFilename.textContent = title + ext;
+  dom.feBookFiletype.textContent = typeLabel;
+  if (dom.feBookRow) {
+    dom.feBookRow.classList.toggle('fe-row-pdf', fileType === 'pdf');
+    dom.feBookRow.classList.toggle('fe-row-epub', fileType !== 'pdf');
+  }
 }
 
 function _updateFeFolder(title) {
